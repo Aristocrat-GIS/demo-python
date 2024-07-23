@@ -1,0 +1,31 @@
+name: SonarQube Scan
+
+on:
+  push:
+    branches:
+      - main
+      - sq-demo
+
+jobs:
+  sonarqube:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      #- name: Set up SonarQube Scanner
+      #  uses: sonarsource/setup-sonarqube@v1
+      #  with:
+      #    sonarqube-version: 'latest'
+
+      #- name: Analyze with SonarQube Scanner
+      #  run: sonar-scanner \
+      #    -Dsonar.projectKey=ati-poc-$(echo $GITHUB_REPOSITORY | tr '[:upper:]' '[:lower:]' | sed 's/[\/]/:/g') \
+      #    -Dsonar.sources=.
+
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: 'https://quality-staging.aristocrat.com'
